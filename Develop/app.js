@@ -13,6 +13,68 @@ const render = require("./lib/htmlRenderer");
 const teamMember = [];
 const idNumber = [];
 
+function manager() {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "ManagerName",
+        message: "What is your name?",
+      },
+      {
+        type: "input",
+        name: "ManagerID",
+        message: "What is your ID number?",
+      },
+      {
+        type: "input",
+        name: "ManagerEmail",
+        message: "What is your email address?",
+      },
+      {
+        type: "input",
+        name: "ManagerOfficeNumber",
+        message: "What is your office #?",
+      },
+    ])
+    .then((answers) => {
+      const manager = new Manager(
+        answers.ManagerName,
+        answers.ManagerID,
+        answers.ManagerEmail,
+        answers.ManagerOfficeNumber
+      );
+      teamMember.push(manager);
+      idNumber.push(answers.ManagerID);
+      addTeamMember();
+    });
+}
+
+function addTeamMember() {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "MoreMembers",
+        message:
+          "Do you want to create another team member? If yes, select which member you would like to create.",
+        choices: ["Engineer", "Intern", "No More Employees"],
+      },
+    ])
+    .then((userResp) => {
+      switch (userResp) {
+        case "Engineer":
+          engineer();
+          break;
+        case "Intern":
+          intern();
+          break;
+        default:
+          writeToFile();
+      }
+    });
+}
+
 function engineer() {
   inquirer
     .prompt([
@@ -87,42 +149,21 @@ function intern() {
     });
 }
 
-function manager() {
-  inquirer
-    .prompt([
-      {
-        type: "input",
-        name: "ManagerName",
-        message: "What is your name?",
-      },
-      {
-        type: "input",
-        name: "ManagerID",
-        message: "What is your ID number?",
-      },
-      {
-        type: "input",
-        name: "ManagerEmail",
-        message: "What is your email address?",
-      },
-      {
-        type: "input",
-        name: "ManagerOfficeNumber",
-        message: "What is your office n?",
-      },
-    ])
-    .then((answers) => {
-      const manager = new Manager(
-        answers.ManagerName,
-        answers.ManagerID,
-        answers.ManagerEmail,
-        answers.ManagerOfficeNumber
-      );
-      teamMember.push(manager);
-      idNumber.push(answers.ManagerID);
-      switchRoles();
-    });
+// function to write the user responses data to the HTML files that are already created. Need to create output folder.
+function writeToFile() {
+  if (!fs.existsSync(OUTPUT_DIR)) {
+    fs.mkdirSync(OUTPUT_DIR);
+  }
+  return fs.writeFileSync(outputPath, render(teamMember));
 }
+
+// function to initialize program
+function init() {
+  manager();
+}
+
+// function call to initialize program
+init();
 
 //first question is the user selecting which role they are via button. that response calls a switch function that directs them to the proper set of questions based on their role
 
