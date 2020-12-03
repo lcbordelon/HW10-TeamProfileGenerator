@@ -14,7 +14,7 @@ const teamMember = [];
 const idNumber = [];
 
 function manager() {
-  inquirer
+  return inquirer
     .prompt([
       {
         type: "input",
@@ -51,7 +51,7 @@ function manager() {
 }
 
 function addTeamMember() {
-  inquirer
+  return inquirer
     .prompt([
       {
         type: "list",
@@ -62,7 +62,7 @@ function addTeamMember() {
       },
     ])
     .then((userResp) => {
-      switch (userResp) {
+      switch (userResp.MoreMembers) {
         case "Engineer":
           engineer();
           break;
@@ -76,7 +76,7 @@ function addTeamMember() {
 }
 
 function engineer() {
-  inquirer
+  return inquirer
     .prompt([
       {
         type: "input",
@@ -113,7 +113,7 @@ function engineer() {
 }
 
 function intern() {
-  inquirer
+  return inquirer
     .prompt([
       {
         type: "input",
