@@ -108,7 +108,7 @@ function engineer() {
       );
       teamMember.push(engineer);
       idNumber.push(answers.EngineerID);
-      switchRoles();
+      addTeamMember();
     });
 }
 
@@ -145,7 +145,7 @@ function intern() {
       );
       teamMember.push(intern);
       idNumber.push(answers.InternID);
-      switchRoles();
+      addTeamMember();
     });
 }
 
